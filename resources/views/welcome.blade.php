@@ -23,7 +23,7 @@
 
             <div class="col-md-12 mb-3">
                 <strong>Grayscale Image:</strong><br/>
-                <img src="/uploads/{{ Session::get('fileName') }}" width="550px" />
+                <img src="/drako/480x480/{{ Session::get('fileName') }}" width="550px" />
             </div>
             @endif
 

@@ -31,15 +31,15 @@ class ResizeController extends Controller
         $imgFile800 = Image::make($image->getRealPath());
 
     
-        $this->ImageResize (  $imgFile70, 70, $input['file']) ;
-        $this->ImageResize (  $imgFile150, 150, $input['file']) ;
-        $this->ImageResize (  $imgFile240, 240, $input['file']) ;
-        $this->ImageResize (  $imgFile480, 480, $input['file']) ;
-        $this->ImageResize (  $imgFile600, 600, $input['file']) ;
-        $this->ImageResize (  $imgFile800, 800, $input['file']) ;
+        $this->ImageResize (  $imgFile70, 70, $input['file']   ) ;
+        $this->ImageResize (  $imgFile150, 150, $input['file'] ) ;
+        $this->ImageResize (  $imgFile240, 240, $input['file'] ) ;
+        $this->ImageResize (  $imgFile480, 480, $input['file'] ) ;
+        $this->ImageResize (  $imgFile600, 600, $input['file'] ) ;
+        $this->ImageResize (  $imgFile800, 800, $input['file'] ) ;
     
         $destinationPath = public_path('/uploads');
-        $image->move($destinationPath, $input['file']);
+        //$image->move($destinationPath, $input['file']);
 
         return back()
         	->with('success','Image has successfully uploaded.')
