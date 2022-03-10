@@ -18,9 +18,10 @@ class ResizeController extends Controller
             'file' => 'required|image|mimes:jpg,jpeg,png,gif,svg|max:20480',
         ]);
 
-        $image          = $request->file('file');
-        $input['file']  = $image->getClientOriginalName();
-        
+        $image          =  ( $request->file('file') );
+         
+        $input['file']  =   $image->getClientOriginalName();
+        $input['file'] = strtolower( $input['file']);
         $destinationPath = public_path('drako');
 
         $imgFile70  = Image::make($image->getRealPath());
@@ -29,6 +30,7 @@ class ResizeController extends Controller
         $imgFile480 = Image::make($image->getRealPath());
         $imgFile600 = Image::make($image->getRealPath());
         $imgFile800 = Image::make($image->getRealPath());
+        $imgFile900 = Image::make($image->getRealPath());
 
     
         $this->ImageResize (  $imgFile70, 70, $input['file']   ) ;
@@ -37,6 +39,8 @@ class ResizeController extends Controller
         $this->ImageResize (  $imgFile480, 480, $input['file'] ) ;
         $this->ImageResize (  $imgFile600, 600, $input['file'] ) ;
         $this->ImageResize (  $imgFile800, 800, $input['file'] ) ;
+
+        $this->ImageResize900x500 ( $imgFile900, 900,500, $input['file'] ) ;
     
         $destinationPath = public_path('/uploads');
         //$image->move($destinationPath, $input['file']);
@@ -56,7 +60,20 @@ class ResizeController extends Controller
         $imgFile->resize($Tamaño , $Tamaño , function ($constraint) {
 		    $constraint->aspectRatio();
 		})->save($FullPathImage);
+ 
+     }
+
+
+        private function ImageResize900x500( $imgFile, $Ancho,$Alto,$NomFile  ){
+        $Carpeta       = $Ancho .'x' .$Alto .'/';
         
+        $FullPathImage = public_path('drako/').$Carpeta  .$NomFile ;
+       
+        
+        $imgFile->resize($Ancho , $Alto , function ($constraint) {
+		    $constraint->aspectRatio();
+		})->save($FullPathImage);
+ 
      }
 
 
