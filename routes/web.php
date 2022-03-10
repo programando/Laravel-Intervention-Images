@@ -14,6 +14,12 @@ use App\Http\Controllers\ResizeController;
 |
 */
 
+Route::get('/image-upload', [ResizeController::class, 'createForm']);
+
+Route::post('/image-upload', [ResizeController::class, 'fileUpload']);
+
+
+
 Route::get('/file-resize', [ResizeController::class, 'index']);
 
 Route::post('/resize-file', [ResizeController::class, 'resizeImage'])->name('resizeImage');

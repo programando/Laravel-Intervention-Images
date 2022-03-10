@@ -12,6 +12,63 @@ class ResizeController extends Controller
     	return view('welcome');
     }
 
+
+ public function createForm(){
+    return view('dropzone');
+ }
+
+  public function fileUpload(Request $req) {
+
+    set_time_limit(0);
+    if($req->hasfile('imageFile')) 
+        foreach($req->file('imageFile') as $file){
+        
+            $name = $file->getClientOriginalName();
+            $RealPath = $file->getRealPath();
+            $this->resizeIndividialImage ( $name,$RealPath );
+            $imgData[] = strtolower($name);  
+        }
+
+        return $imgData;
+
+       //return back()->with('success', compact('imgData'));
+}
+
+
+
+  public function resizeIndividialImage( $Imagen, $RealPath  )
+    {
+ 
+        $Imagen = strtolower( $Imagen );
+
+        $destinationPath = public_path('drako');
+
+        $imgFile70  = Image::make( $RealPath  );
+        $imgFile150 = Image::make( $RealPath  );
+        $imgFile240 = Image::make( $RealPath  );
+        $imgFile480 = Image::make( $RealPath  );
+        $imgFile600 = Image::make( $RealPath  );
+        $imgFile800 = Image::make( $RealPath  );
+        //$imgFile900 = Image::make( $RealPath  );
+
+    
+        $this->ImageResize (  $imgFile70, 70,  $Imagen   ) ;
+        $this->ImageResize (  $imgFile150, 150,  $Imagen ) ;
+        $this->ImageResize (  $imgFile240, 240,  $Imagen ) ;
+        $this->ImageResize (  $imgFile480, 480,  $Imagen ) ;
+        $this->ImageResize (  $imgFile600, 600,  $Imagen ) ;
+        $this->ImageResize (  $imgFile800, 800,  $Imagen ) ;
+
+        //$this->ImageResize900x500 ( $imgFile900, 900,500,  $Imagen ) ;
+    
+        $destinationPath = public_path('/uploads');
+ 
+    }
+
+
+
+
+
     public function resizeImage(Request $request)
     {
 	    $this->validate($request, [
@@ -22,6 +79,7 @@ class ResizeController extends Controller
          
         $input['file']  =   $image->getClientOriginalName();
         $input['file'] = strtolower( $input['file']);
+
         $destinationPath = public_path('drako');
 
         $imgFile70  = Image::make($image->getRealPath());
