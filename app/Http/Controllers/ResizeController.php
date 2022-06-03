@@ -41,7 +41,7 @@ class ResizeController extends Controller
  
         $Imagen = strtolower( $Imagen );
 
-        $destinationPath = public_path('drako');
+        //$destinationPath = public_path('drako');
 
         $imgFile70  = Image::make( $RealPath  );
         $imgFile150 = Image::make( $RealPath  );
@@ -110,9 +110,9 @@ class ResizeController extends Controller
 
 
         private function ImageResize( $imgFile, $Tamaño,$NomFile  ){
-        $Carpeta       = $Tamaño .'x' .$Tamaño .'/';
+        $Carpeta       = '/storage/images/productos/'.$Tamaño .'x' .$Tamaño .'/';
         
-        $FullPathImage = public_path('drako/').$Carpeta  .$NomFile ;
+        $FullPathImage = public_path().$Carpeta  .$NomFile ;
        
         
         $imgFile->resize($Tamaño , $Tamaño , function ($constraint) {
