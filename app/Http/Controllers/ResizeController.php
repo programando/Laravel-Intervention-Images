@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Image;
-
+use File;
 class ResizeController extends Controller
 {
     
@@ -54,7 +54,7 @@ class ResizeController extends Controller
     
         $this->ImageResize (  $imgFile70, 70,  $Imagen   ) ;
         $this->ImageResize (  $imgFile150, 150,  $Imagen ) ;
-        $this->ImageResize (  $imgFile240, 240,  $Imagen ) ;
+        $this->ImageResize (  $imgFile240, 240,  $Imagen, true ) ;
         $this->ImageResize (  $imgFile480, 480,  $Imagen ) ;
         $this->ImageResize (  $imgFile600, 600,  $Imagen ) ;
         $this->ImageResize (  $imgFile800, 800,  $Imagen ) ;
@@ -109,7 +109,7 @@ class ResizeController extends Controller
     }
 
 
-        private function ImageResize( $imgFile, $Tamaño,$NomFile  ){
+        private function ImageResize( $imgFile, $Tamaño,$NomFile, $CopyFile= false  ){
         $Carpeta       = '/storage/images/productos/'.$Tamaño .'x' .$Tamaño .'/';
         
         $FullPathImage = public_path().$Carpeta  .$NomFile ;
@@ -118,6 +118,13 @@ class ResizeController extends Controller
         $imgFile->resize($Tamaño , $Tamaño , function ($constraint) {
 		    $constraint->aspectRatio();
 		})->save($FullPathImage);
+
+        if ( $CopyFile === true ) {
+            $Carpeta          = '/storage/images/productos/Kelvin/';
+            $FullNewPathImage = public_path().$Carpeta .$NomFile ;   ;
+            File::copy( $FullPathImage, $FullNewPathImage);
+            File::append( public_path().$Carpeta .'archivos.txt', $NomFile . "\n" );   
+        }
  
      }
 
